@@ -8,6 +8,7 @@ website:
   repo-url: https://github.com/iod-ine/nondeterministic-woodlands
   repo-actions: [source, issue]
   search: true
+  favicon: images/favicon.ico
   navbar:
     right:
       - about.qmd
@@ -16,6 +17,8 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/ivan-dubrovin-2b1186237/
   body-header: ---
+  margin-header: |
+    ![](https://raw.githubusercontent.com/iod-ine/nondeterministic-woodlands/main/images/logo.svg)
 format:
   html:
     theme: sandstone
