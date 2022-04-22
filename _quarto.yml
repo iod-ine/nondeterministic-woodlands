@@ -15,6 +15,7 @@ website:
         href: https://github.com/iod-ine
       - icon: linkedin
         href: https://www.linkedin.com/in/ivan-dubrovin-2b1186237/
+  body-header: ---
 format:
   html:
     theme: sandstone

@@ -1,0 +1,237 @@
+---
+title: "Rendering networks of influencing factors in R Markdown"
+description: "Explaining the assumptions and goals of research projects by including reference and impact models into R Markdown documents through `Graphviz` and `DiagrammeR`."
+author: "Ivan Dubrovin"
+date: "2022-04-22"
+categories: [R Markdown, DRM]
+bibliography: "`r here::here('bibliography.bib')`"
+image: preview.png
+---
+
+I have recently completed a course titled "Research Methodology for Engineering Systems."
+It was an introduction to PhD level research strategies in the multidisciplinary applied setting, where it's often hard to separate scientific questions from purely engineering ones.
+The main resource for the course was the book "DRM, a Design Research Methodology" [-@blessingDRM2009].
+One of the tools the book introduces is the framework of the **networks of influencing factors**.
+It is a very intuitive way to represent and explain the assumptions and the goals of a research project.
+I realized how useful they are when noticed that I started using them without even thinking.
+This post is about describing these networks with [`Graphviz`](https://graphviz.org/) and rendering them in R Markdown documents with [`DiagrammeR`](https://rich-iannone.github.io/DiagrammeR/).
+
+# What is DRM?
+
+Design Research Methodology is a self-explanatory name.
+It is a collection of guidelines and methods that can be used as a framework for *design research*, where design research is the development of understanding and support for *design*, and design is a process of developing a product from a need.
+In simpler words, it is a manual on navigating research in applied multidisciplinary fields.
+If that sounds interesting, I recommend reading the second chapter of the DRM book that gives an overview of the framework.
+My own explanations that follow are by no means comprehensive.
+They aim more at demonstrating the possibilities of `Graphviz` and `DiagrammeR`.
+
+# `Graphviz` and `DiagrammeR`
+
+`Graphviz` is an open source tool for visualizing graphs.
+It provides an intuitive abstract language to define graphs using plain text and a rendering engine that renders this text to visual formats.
+Below is an example of the syntax for defining a simple graph.
+
+```dot
+digraph my_graph {
+  rankdir = "LR"
+  
+  B [shape = "box", label = "middle"]
+  
+  node [shape = "ellipse"]
+  
+  A -> B
+  
+  node [color = "green"]
+  
+  A -> C [style = "dashed", label = "shortcut"]
+  B -> C
+}
+```
+
+[All possible attributes are described in `Graphviz` documentation.]{.aside}
+
+This definition creates a directed graph called `my_graph`.
+`rankdir = LR` tells `Graphviz` to render the graph from left to right.
+`B [shape = box, label = middle]` creates a new node `B` that will be rendered as a box with a label `middle`.
+`node [shape = ellipse]` makes all nodes defined below this line to be rendered as ellipses.
+`A -> B` creates an edge from a new node `A` to the defined above node `B`.
+`node [color = green]`  makes all nodes defined below to be green.
+`A -> C [style = dashed, label = shortcut]` creates a dashed edge with a label from `A` to a new node `C`.
+The quotes around the values are not required, but I think they create a visual separation and make the definition easier on the eyes.
+This graph is visualized below.
+
+`DiagrammeR` is an R package for working with network graph diagrams.
+It allows creating and analyzing graphs directly through R, but also offers a possibility to render `Graphviz` graphs.
+The function for that is `DiagrammeR::grViz()`.
+It can read a graph definition directly from a string, or it can read a graph defined in a file.
+I prefer separating the graphs from the R code to avoid headaches with escaping quotes and newlines when the graphs are not trivial.
+This is how a call to render the above defined graph from a file and the result look like:
+
+```{r}
+#| label: fig-example-graph
+#| fig-cap: "An example graph."
+#| fig-height: 1.5
+DiagrammeR::grViz(here::here("posts", "2022-04-rendering-drm-models", "example.gv"))
+```
+
+# Networks of influencing factors
+
+In DRM, it’s important to describe existing and desired situations.
+The description of the existing situation helps to directly describe the problem at hand and the current understanding of why the problem occurs.
+The description of the desired situation helps to describe how the proposed solution is supposed to address the problem.
+
+The tool to visualize and describe the existing and desired situations proposed in DRM is called **networks of influencing factors**.
+An **influencing factor** is an aspect of the described situation that influences other aspects.
+For example, `quality of product` might have an influence on `satisfaction of customer`.
+A factor is formulated as an **attribute** of an **element**, and it has to be measurable or possible to assess.
+Factors are visualized as ellipse nodes of a directed graph, and the influences that factors have on each other are represented by edges.
+Below is an example of a supposed relationship between quality of the product with customer satisfaction.
+The graph says: *"according to source [5], better product quality leads to greater customer satisfaction"*.
+
+```{r}
+#| label: fig-example-relationship
+#| echo: false
+#| fig.cap: "The relationship between two influencing factors visualized as a graph."
+#| fig.height: 1
+DiagrammeR::grViz("digraph a {
+  rankdir = LR
+  q [label = 'quality of\nproduct']
+  s [label = 'satisfaction\nof customer']
+  q -> s [taillabel = '+', headlabel = '+', label = '[5]']
+}")
+```
+
+Two types of networks of influencing factors are the **reference model** and the **impact model**.
+The former describes the existing situation and is used as a reference to compare the results to, hence the name.
+The latter describes the desired situation and shows how the proposed solution affects the factors.
+The proposed solution, or *support*, is represented by a hexagonal node connected to the factors that it addresses.
+For example, the graph below shows that the proposed solution is to improve problem definition process, and it is assumed to improve the quality of problem definition.
+
+```{r}
+#| label: fig-example-support
+#| echo: false
+#| fig.cap: "The relationship between the proposed support and an influencing factor."
+#| fig.height: 1
+DiagrammeR::grViz("digraph a {
+  rankdir = LR
+  s [label = 'support\nproblem\ndefinition', shape = 'hexagon']
+  q [label = 'quality of\nproblem\ndefinition']
+  s -> q [headlabel = '+', label = '[A]']
+}")
+```
+
+This simple approach allows to describe complex research problems in a universal and intuitive way.
+They are simple to explain and help to give an overview of the project even to people that are not in the same field.
+Below I use this approach to recreate the example reference and impact models from the second chapter of the DRM book to show that it's easy to extend this approach to more complex graphs.
+
+# More complex examples
+
+Here is the contents of the `reference.gv` file with a definition of the reference model:
+
+```dot
+digraph reference_model {
+  rankdir = "BT"
+  fontsize = 11
+  overlap = "false"
+
+  node [shape = "ellipse"]
+  problem_quality [label = "quality of\nproblem\ndefinition"]
+
+  modification_no [label = "number of\nmodifications"]
+  time_spent [label = "% of design\ntime spent on\nmodifications"]
+
+  product_quality [label = "quality of\nproduct"]
+  markt_time [label = "time-to-\nmarket"]
+
+  satisfaction [label = "satisfaction\nof customer"]
+  profit [label = "amount of\nprofit"]
+
+  node [style = "dashed"]
+  cost [label = "cost of\nproduction"]
+
+  edge [arrowsize = 0.4, labeldistance = 1]
+  problem_quality -> modification_no [taillabel = "-", headlabel = "0", label = "[1]"]
+  problem_quality -> modification_no [taillabel = "-", headlabel = "+", label = "[2]"]
+  problem_quality -> time_spent [taillabel = "-", headlabel = "+", label = "[1]"]
+
+  modification_no -> time_spent [taillabel = "+", headlabel = "+", label = "[E]"]
+  modification_no -> product_quality [taillabel = "+", headlabel = "0", label = "[3]"]
+  time_spent -> markt_time [taillabel = "+", headlabel = "+", label = "[A]"]
+
+  product_quality -> satisfaction [taillabel = "+", headlabel = "+", label = "[5]"]
+  product_quality -> profit [taillabel = "-", headlabel = "-", label = "[4]"]
+  markt_time -> profit [taillabel = "+", headlabel = "-", label = "[4]"]
+  cost -> profit
+}
+```
+
+And a simple function call to render the graph:
+
+```{r}
+#| label: fig-reference-model
+#| fig.cap: A recreation of Figure 2.3 "A Reference Model representing the – partly assumed – existing situation" from the DRM book.
+#| fig.height: 6
+DiagrammeR::grViz((here::here("posts", "2022-04-rendering-drm-models", "reference.gv")))
+```
+
+And the same for the impact model:
+
+```dot
+digraph impact_model {
+  rankdir = "BT"
+  fontsize = 11
+  overlap = "false"
+
+  node [shape = "hexagon"]
+  support [label = "support\nproblem\ndefinition"]
+
+  node [shape = "ellipse"]
+  problem_quality [label = "quality of\nproblem\ndefinition"]
+
+  modification_no [label = "number of\nmodifications"]
+  time_spent [label = "% of design\ntime spent on\nmodifications"]
+
+  product_quality [label = "quality of\nproduct"]
+  eval_quality [label = "quality of\ndesign\nevaluation"]
+  markt_time [label = "time-to-\nmarket"]
+
+  satisfaction [label = "satisfaction\nof customer"]
+  profit [label = "amount of\nprofit"]
+
+  node [style = "dashed"]
+  cost [label = "cost of\nproduction"]
+
+  edge [arrowsize = 0.4, labeldistance = 1]
+  support -> problem_quality [headlabel = "+", label = "[A]"]
+
+  problem_quality -> time_spent [taillabel = "+", headlabel = "-", label = "[A]"]
+  problem_quality -> modification_no [taillabel = "+", headlabel = "-", label = "[A]"]
+  problem_quality -> eval_quality [taillabel = "+", headlabel = "+", label = "[A]"]
+
+  modification_no -> time_spent [taillabel = "-", headlabel = "-", label = "[E]"]
+  eval_quality -> product_quality [taillabel = "+", headlabel = "+", label = "[A]"]
+  time_spent -> markt_time [taillabel = "-", headlabel = "-", label = "[A]"]
+
+  product_quality -> satisfaction [taillabel = "+", headlabel = "+", label = "[5]"]
+  product_quality -> profit [taillabel = "+", headlabel = "+", label = "[A]"]
+  markt_time -> profit [taillabel = "-", headlabel = "+", label = "[A]"]
+  cost -> profit
+}
+```
+
+```{r}
+#| label: fig-impact-model
+#| fig.cap: 'A recreation of Figure 2.6 "An Impact Model, representing the – partly assumed – desired situation after the introduction of the support (represented as an hexagonal element)" from the DRM book.'
+#| fig.height: 6
+DiagrammeR::grViz((here::here("posts", "2022-04-rendering-drm-models", "impact.gv")))
+```
+
+# Conclusions
+
+Here is a quote from the DRM book that I think best describes this tool:
+
+> Our students found developing Reference and Impact Models to be a powerful method to clarify their thoughts, structure their understanding and reveal their assumptions. In our opinion, developing such models as a research community would reveal our current understanding of design and could act as an important basis for future research.
+
+I noticed that I started using them even when making notes during discussions.
+It is a concise and intuitive way to describe complex ideas.
+`Graphviz` and `DiagrammeR` make including them into R Markdown reports very easy and straightforward.

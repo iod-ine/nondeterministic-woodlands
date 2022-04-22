@@ -1,0 +1,34 @@
+digraph reference_model {
+  rankdir = "BT"
+  fontsize = 11
+  overlap = "false"
+
+  node [shape = "ellipse"]
+  problem_quality [label = "quality of\nproblem\ndefinition"]
+
+  modification_no [label = "number of\nmodifications"]
+  time_spent [label = "% of design\ntime spent on\nmodifications"]
+
+  product_quality [label = "quality of\nproduct"]
+  markt_time [label = "time-to-\nmarket"]
+
+  satisfaction [label = "satisfaction\nof customer"]
+  profit [label = "amount of\nprofit"]
+
+  node [style = "dashed"]
+  cost [label = "cost of\nproduction"]
+
+  edge [arrowsize = 0.4, labeldistance = 1]
+  problem_quality -> modification_no [taillabel = "-", headlabel = "0", label = "[1]"]
+  problem_quality -> modification_no [taillabel = "-", headlabel = "+", label = "[2]"]
+  problem_quality -> time_spent [taillabel = "-", headlabel = "+", label = "[1]"]
+
+  modification_no -> time_spent [taillabel = "+", headlabel = "+", label = "[E]"]
+  modification_no -> product_quality [taillabel = "+", headlabel = "0", label = "[3]"]
+  time_spent -> markt_time [taillabel = "+", headlabel = "+", label = "[A]"]
+
+  product_quality -> satisfaction [taillabel = "+", headlabel = "+", label = "[5]"]
+  product_quality -> profit [taillabel = "-", headlabel = "-", label = "[4]"]
+  markt_time -> profit [taillabel = "+", headlabel = "-", label = "[4]"]
+  cost -> profit
+}

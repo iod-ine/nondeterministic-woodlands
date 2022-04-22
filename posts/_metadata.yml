@@ -9,6 +9,10 @@ title-block-banner: false
 # Enable table of contents
 table-of-contents: true
 
+# Set the date rendering format
+date-format: long
+
+# Include giscus comments
 format:
   html:
     include-after-body: ../giscus.html
