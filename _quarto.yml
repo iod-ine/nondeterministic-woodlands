@@ -1,0 +1,21 @@
+project:
+  type: website
+
+website:
+  title: "nondeterministic woodlands"
+  description: "Some guy's journey to a PhD in geospatial data analysis"
+  site-url: nondeterministicwoodlands.com
+  repo-url: https://github.com/iod-ine/nondeterministic-woodlands
+  repo-actions: [source, issue]
+  search: true
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/iod-ine
+      - icon: linkedin
+        href: https://www.linkedin.com/in/ivan-dubrovin-2b1186237/
+format:
+  html:
+    theme: sandstone
+    css: styles.css

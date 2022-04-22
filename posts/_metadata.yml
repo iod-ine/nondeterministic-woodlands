@@ -1,0 +1,14 @@
+# Options specified here will apply to all posts in this folder.
+
+# Freeze computational output: don't rerun code without explicitly being asked to
+freeze: true
+
+# Disable banner style title blocks
+title-block-banner: false
+
+# Enable table of contents
+table-of-contents: true
+
+format:
+  html:
+    include-after-body: ../giscus.html

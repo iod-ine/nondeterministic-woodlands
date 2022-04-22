@@ -1,0 +1,35 @@
+---
+title: "Post With Code"
+author: "Harlow Malloc"
+date: "4/22/2022"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+# Section 1
+
+This is a post with executable code.
+
+```{r}
+1 + 1
+```
+
+# Section 2
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Blandit massa enim nec dui nunc. In nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Ultrices dui sapien eget mi proin sed libero. Lectus mauris ultrices eros in. Elementum integer enim neque volutpat ac tincidunt vitae semper. Massa vitae tortor condimentum lacinia quis vel eros. Lobortis mattis aliquam faucibus purus in massa tempor nec feugiat. Ut faucibus pulvinar elementum integer enim. Convallis posuere morbi leo urna molestie at. Purus ut faucibus pulvinar elementum. Massa vitae tortor condimentum lacinia quis vel. Ut tristique et egestas quis ipsum. Fames ac turpis egestas integer eget aliquet. Vestibulum mattis ullamcorper velit sed ullamcorper. Eu feugiat pretium nibh ipsum consequat nisl vel. Quis imperdiet massa tincidunt nunc pulvinar. Nunc id cursus metus aliquam eleifend mi in nulla.
+
+# Section 3
+
+Vitae suscipit tellus mauris a diam maecenas sed enim. Vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant. Amet facilisis magna etiam tempor orci. Nullam non nisi est sit amet facilisis magna etiam tempor. Pellentesque adipiscing commodo elit at imperdiet dui accumsan sit amet. Condimentum id venenatis a condimentum vitae sapien. Sit amet consectetur adipiscing elit pellentesque. Semper eget duis at tellus at urna. Ultricies leo integer malesuada nunc vel risus commodo viverra. Sit amet purus gravida quis blandit turpis cursus.
+
+## Subsection 3.1
+
+Dictum fusce ut placerat orci. Cras pulvinar mattis nunc sed blandit libero. Aliquam ultrices sagittis orci a scelerisque purus semper eget duis. Rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt lobortis. Risus sed vulputate odio ut enim. Suspendisse sed nisi lacus sed viverra. In aliquam sem fringilla ut morbi tincidunt augue. Eu feugiat pretium nibh ipsum consequat nisl vel pretium lectus. Turpis nunc eget lorem dolor. Ac tortor vitae purus faucibus ornare suspendisse sed nisi lacus. Sit amet aliquam id diam maecenas ultricies mi eget. Hendrerit dolor magna eget est lorem ipsum. Parturient montes nascetur ridiculus mus mauris vitae ultricies. Quis viverra nibh cras pulvinar mattis nunc. Risus viverra adipiscing at in tellus. Vel quam elementum pulvinar etiam non quam. Pulvinar etiam non quam lacus suspendisse faucibus interdum posuere lorem. Sagittis orci a scelerisque purus.
+
+## Subsection 3.2
+
+Felis eget velit aliquet sagittis. Consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis. At tempor commodo ullamcorper a lacus vestibulum sed. Pellentesque sit amet porttitor eget dolor morbi. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing. Mauris cursus mattis molestie a iaculis at erat pellentesque adipiscing. Sapien faucibus et molestie ac feugiat. Id semper risus in hendrerit gravida rutrum quisque non. Duis convallis convallis tellus id interdum velit laoreet. Ornare arcu odio ut sem nulla pharetra. Mi proin sed libero enim sed faucibus turpis in. Pretium aenean pharetra magna ac. A erat nam at lectus urna duis convallis convallis. Nunc id cursus metus aliquam eleifend mi in nulla posuere. Malesuada fames ac turpis egestas maecenas. Nisl nisi scelerisque eu ultrices vitae auctor eu. Gravida arcu ac tortor dignissim convallis.
+
+# Section 4
+
+Ipsum a arcu cursus vitae congue mauris rhoncus aenean vel. Pharetra vel turpis nunc eget lorem. Proin sed libero enim sed faucibus turpis. Vulputate mi sit amet mauris commodo. Sed vulputate odio ut enim blandit volutpat maecenas. Sed faucibus turpis in eu mi bibendum. Duis ultricies lacus sed turpis tincidunt id aliquet risus feugiat. Euismod quis viverra nibh cras. Feugiat in fermentum posuere urna nec tincidunt praesent semper feugiat. Cursus mattis molestie a iaculis at erat. Nunc consequat interdum varius sit. Dis parturient montes nascetur ridiculus. Sit amet mauris commodo quis imperdiet massa tincidunt nunc. Vitae proin sagittis nisl rhoncus mattis rhoncus urna neque.
