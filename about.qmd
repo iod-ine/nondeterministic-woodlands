@@ -12,6 +12,15 @@ about:
       href: https://linkedin.com
 ---
 
+### The who
+
+I'm Ivan, a PhD student at Skoltech.
+I research fusion of LiDAR with other remote sensing data for precision forestry.
+
+### The what
+
+My journey through learning geospatial data science.
+
 ### The how
 
 [RMarkdown](https://bookdown.org/yihui/rmarkdown/),
@@ -22,8 +31,3 @@ about:
 [giscus](https://giscus.app/),
 and [Google Domains](https://domains.google):
 these were the ingredients chosen to create the perfect little blog.
-
-### The what
-
-My journey through learning geospatial data science.
-The list for that would be much longer.
