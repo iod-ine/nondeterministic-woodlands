@@ -13,9 +13,7 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/iod-ine
-      - icon: linkedin
-        href: https://www.linkedin.com/in/ivan-dubrovin-2b1186237/
+        href: https://github.com/iod-ine/nondeterministic-woodlands
   body-header: ---
   margin-header: |
     ![](https://raw.githubusercontent.com/iod-ine/nondeterministic-woodlands/main/images/logo.svg)

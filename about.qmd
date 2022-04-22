@@ -6,10 +6,10 @@ about:
   links:
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/iod-ine
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://www.linkedin.com/in/ivan-dubrovin-2b1186237/
 ---
 
 ### The who
