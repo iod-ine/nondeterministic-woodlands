@@ -1,0 +1,14 @@
+{
+  "hash": "445c3222c19f76ce49fe391fb38e12b0",
+  "result": {
+    "markdown": "---\ntitle: \"PostGIS and R\"\ndescription: \"Loading spatial data into PostGIS and working with it through R.\"\nauthor: \"Ivan Dubrovin\"\ndate: \"2022-04-22\"\ncategories: [PostGIS, R]\nbibliography: \"/Users/ivan/Projects/nondeterministic-woodlands/bibliography.bib\"\ndraft: true\n---\n\n\nUsing NewFor ITD benchmark as example.\n\n```sql\nCREATE SCHEMA extensions;\nCREATE EXTENSION postgis SCHEMA extensions;\nCREATE EXTENSION postgis_raster SCHEMA extensions;\nALTER DATABASE trees SET search_path = \"$user\", public, extensions;\n```\n\n# TODO: upload from R instead of these tools?\n\n```shell\nshp2pgsql -s 32640 -c -i -I -S trees_clean.shp lysva.trees | psql plots.plot01\nraster2pgsql -s 949910 -t 100x100 -F MGS\\ MOLA\\ DEM\\ 463m\\ MC-02.tif public.test | haha.sql\n```\n\n```shell\npsql db\n\\d\n\\dt\n\\dn\n\\d database\n```\n\nif (FALSE) {\nlibrary(RPostgreSQL)\ntry(conn <- dbConnect(PostgreSQL(), dbname = \"postgis\"))\nif (exists(\"conn\") && !inherits(conn, \"try-error\")) {\n  x = st_read(conn, \"meuse\", query = \"select * from meuse limit 3;\")\n  x = st_read(conn, table = \"public.meuse\")\n  print(st_crs(x)) # SRID resolved by the database, not by GDAL!\n  dbDisconnect(conn)\n }\n}\n\nhttps://db.rstudio.com/getting-started/database-queries\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": null
+  }
+}

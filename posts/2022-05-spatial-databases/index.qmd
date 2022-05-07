@@ -1,0 +1,238 @@
+---
+title: "Storing spatial data in databases"
+description: |
+  Using PostGIS to never worry about how and where to store your spatial data.
+author: "Ivan Dubrovin"
+date: "2022-05-07"
+categories: [PostGIS]
+image: image.png
+---
+
+I believe that removing unnecessary choices from the workflow helps to focus on the important parts.
+Frameworks that enforce rules boost productivity.
+If you always organize an R project as a package or as a `targets` pipeline, you don't need to think about directory structure.
+If you always use `Black` and `Flake8` to automatically format Python code, you don't need to keep the PEP8 conventions in mind.
+Instead, you spend the most time possible on the content.
+
+I see the use of databases for storing spatial data as a similar form of workflow optimization.
+If you always use databases, you have one less thing to worry about when initializing a new project.
+In this post I want to describe how I set up my spatial databases for the projects I work on.
+
+# Why use databases?
+
+For people who work with large amount of data daily this question might seem silly.
+But it is not that obvious.
+I couldn't answer the question without thinking about it for a couple of minutes first, so it is probably worthwhile to list a couple of reasons.
+
+- Everything is stored in one place, organized in the same predictable way.
+You don't have to think where on the file system to put the data, how to name the files and folders, how to specify paths to open the data.
+- Lots of operations can be performed in the database which minimizes the data transfer.
+This is important when you need to be memory efficient and when the data is transferred through a network.
+- Databases are easy to back up and transfer to different machines.
+There are established and well-documented tools to perform all kinds of maintenance with databases.
+- It is a workflow optimization if you commit to use them in all projects.
+
+# Setting up a spatial database
+
+There are multiple spatial database frameworks. 
+As far as I know, the most popular one is the PostGIS extension for PostgreSQL databases.
+That's the one I use.
+Lots of useful information can be found on the [PostGIS website](https://postgis.net/), including the installation instructions and documentation.
+I work on MacOS, where the easiest way to install it is thorough `Homebrew`.
+
+The first step is to create the database and connect to it.
+
+```sh
+createdb projects
+psql projects
+```
+
+A good practice is to separate the extensions into their own schema, so that the workspace is more clean.
+The collection of commands below creates a new schema to store the extensions, activates the extensions for vector and raster spatial data, and modifies the search path so that the functions from the extensions are findable by PostgreSQL.
+
+```sql
+CREATE SCHEMA extensions;
+CREATE EXTENSION postgis SCHEMA extensions;
+CREATE EXTENSION postgis_raster SCHEMA extensions;
+ALTER DATABASE projects SET search_path = "$user", public, extensions;
+```
+
+Altered this way, the search path will be updated only on the next reconnect to the database.
+To take advantage of the search path, either reconnect or modify it for the current session with a following command:
+
+```sql
+SET search_path = "$user", public, extensions;
+```
+
+To make sure that the extensions are installed correctly and the functions are findable, check the version:
+
+```sql
+SELECT PostGIS_Version();
+```
+
+For me the results looks like this:
+
+```
+            postgis_version            
+---------------------------------------
+ 3.2 USE_GEOS=1 USE_PROJ=1 USE_STATS=1
+```
+
+We now have a database ready to store spatial data.
+Nice!
+The next sections describe tools that come with PostGIS to load spatial data into databases.
+
+# Uploading vector data
+
+Some vector data can be stored in a database even without extensions.
+For points, for example, the easiest way is to store coordinates as separate columns.
+However, other simple features (lines, polygons, and their collections) are not as easy to store in plain databases.
+Moreover, storing coordinates as simple numbers does not allow any special treatment that spatial data usually needs, such as spatial subsetting, intersection detection, and so on.
+That's where PostGIS comes in.
+
+## Example dataset
+
+As an example vector dataset I will use a subset of data I collected for one of my current projects.
+It is a grid of points over Moscow with travel times to the center of the city reported by Yandex.Maps for different travel modes.
+Each point has four travel times and a timestamp of the data collection.
+Here is how the table looks like:
+
+```{r}
+#| label: example-vector
+#| message: false
+library(sf)
+library(here)
+
+shp <- here("posts", "2022-05-spatial-databases", "shp")
+moscow_shp <- file.path(shp, "moscow_raw_subset.shp")
+moscow <- read_sf(moscow_shp)
+knitr::kable(head(moscow, n = 5))
+```
+
+The geometries are printed in the well-known text (WKT) format, but in the database they are stored in its binary version (WKB).
+
+## `shp2pgsql`
+
+The tool for importing vector data is called `shp2pgsql`.
+As the name suggests, it reads in an ESRI shapefile and generates SQL commands that load its data into a table.
+Running the command without any arguments prints the usage information with description of all available options.
+I don't remember all the flags by heart, and refer to this help every time.
+
+Before loading the data I usually create a descriptive schema to keep the database organized.
+For example, in the project for which I collected this data, there are multiple tables for grids of different cities.
+It makes sense to store all of such tables in the same schema.
+
+```sql
+CREATE SCHEMA times;
+```
+
+Here is the command I would use to load the example file into the newly created database:
+
+```sh
+shp2pgsql -s 4326 -c -I -S moscow_raw_subset.shp times.moscow | psql projects
+```
+
+It specifies that the data uses WGS84 coordinate reference system (SRID 4326), that a new table should be created, that a spatial index should be created after the data is loaded, that simple geometries should be created instead of multi-geometries.
+Then comes the input file and the table name with the schema.
+The tool generates SQL commands and prints them to standard output, and the easiest way to apply them is to pipe this output into `psql`.
+
+After running this command, a table with the data will be created in the `projects` database.
+The shapefile is not necessary anymore, since the data is safe and easily accessible.
+
+# Uploading raster data
+
+It's harder to imagine fitting raster data into a table.
+PostGIS offers a way to do that by storing binary chunks as rows.
+I didn't dive into details of the implementation and format, and it is not necessary for everyday use.
+
+## Example data
+
+As an example raster I will use a digital terrain model from the NewFor individual tree detection dataset.
+Here is how it looks like:
+
+```{r}
+#| label: fig-example-raster
+#| message: false
+#| fig.cap: An example raster. Digital terrain model from the NewFor individual tree detection benchmark.
+library(terra)
+library(tmap)
+
+tif <- here("posts", "2022-05-spatial-databases", "tif")
+dtm_tif <- file.path(tif, "15_leskova_dtm.tif")
+dtm <- rast(dtm_tif)
+
+dtm |>
+  tm_shape() +
+  tm_raster(style = "cont", title = "Elevation [m]") +
+  tm_layout(legend.outside = TRUE)
+```
+
+## `raster2pgsql`
+
+Similarly to the vector data, the tool for importing rasters is called `raster2pgsql`.
+Just like it's vector counterpart, it reads in a raster file and generates SQL commands that load its data into a table.
+This command has a lot more options, which are also printed with descriptions when the command is called without arguments.
+
+For rasters I also usually create separate schemas.
+For example, all digital terrain models will nicely fit into a `dtms` schema:
+
+```sql
+CREATE SCHEMA dtms;
+```
+
+Here is the command I would use to load the file into the `projects` database:
+
+```sh
+raster2pgsql -s 949910 15_leskova_dtm.tif dtms._15_leskova | psql projects
+```
+
+Similarly, it specifies the SRID of the coordinate reference system of the raster.
+Then it provides the input file, table name with the schema, and pipes the SQL into `psql`.
+
+One of the most useful arguments for this command is `-t WIDTHxHEIGH`.
+It allows splitting the raster into chunks of fixed size, each stored on a separate row in the table.
+In this format, rasters can be loaded partially, which is extremely useful for large datasets.
+I don't use the flag here because the example file is small enough to be loaded in one go, so can be stored in a single row.
+
+# Backing up the database
+
+One of the advantages of using databases I listed in the introduction was the ease of backup.
+The command below will create an SQL dump of the `projects` database.
+
+```sh
+pg_dump -O projects -f projects_dump.sql
+```
+
+The `-O` flag tells `pg_dump` to not record database user information.
+Without it the databases will be assigned the same owner roles everywhere.
+I use it because on different machines the users are named differently, and there might be problems if there is a mismatch.
+This creates an SQL dump: a file with SQL commands that recreate the database in its current state.
+
+To restore from a backup, first an empty database needs to be created.
+Then `psql` can just execute the SQL dump file in this database, and everything will be restored.
+
+```sh
+createdb projects
+psql projects < projects_dump.sql
+```
+ 
+# Accessing the data
+
+Now that the data is safely stored in a database, the next question is how to access it.
+I usually only interact with my spatial data through either QGIS or R.
+QGIS has a very intuitive support for loading data from PostGIS databases right in the Browser window.
+If there is a need to extract the data into files, QGIS provides a straight forward way to export the data into whatever format necessary.
+And I plan to dedicate a later post to interacting with the data from R.
+
+I'd also like to mention that PostGIS comes with a tool that allows exporting vector tables into ESRI shapefiles.
+It does the reverse of what `shp2pgsql` does, and its appropriately named `pgsql2shp`.
+I have never used this tool, because if I need to extract data I do it through QGIS.
+But for the sake of completeness, here is a command that would extract our example vector data back into a shapefile:
+
+```sh
+pgsql2shp -f moscow_raw_subset.shp projects times.moscow
+```
+
+# Conclusion
+
+PostGIS is amazing. Highly recommend.
