@@ -15,4 +15,8 @@ LaTeX: pdfLaTeX
 AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
 
+PythonType: conda
+PythonVersion: 3.10.5
+PythonPath: ~/.miniforge3/envs/blog/bin/python
+
 SpellingDictionary: en_US
