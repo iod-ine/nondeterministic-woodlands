@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>nondeterministicwoodlands.com/posts/2022-06-pandas-tidyverse-basic/index.html</loc>
+    <lastmod>2022-06-15T14:47:08.432Z</lastmod>
+  </url>
+  <url>
     <loc>nondeterministicwoodlands.com/posts/2022-04-rendering-drm-models/index.html</loc>
-    <lastmod>2022-05-07T17:38:45.127Z</lastmod>
+    <lastmod>2022-06-15T14:47:09.242Z</lastmod>
   </url>
   <url>
     <loc>nondeterministicwoodlands.com/posts/2022-05-spatial-databases/index.html</loc>
-    <lastmod>2022-05-07T17:38:51.426Z</lastmod>
+    <lastmod>2022-06-15T14:47:10.054Z</lastmod>
   </url>
   <url>
     <loc>nondeterministicwoodlands.com/index.html</loc>
-    <lastmod>2022-05-07T17:38:47.047Z</lastmod>
+    <lastmod>2022-06-15T14:47:10.450Z</lastmod>
   </url>
   <url>
     <loc>nondeterministicwoodlands.com/about.html</loc>
-    <lastmod>2022-05-07T17:39:03.532Z</lastmod>
+    <lastmod>2022-06-15T14:47:10.746Z</lastmod>
   </url>
 </urlset>

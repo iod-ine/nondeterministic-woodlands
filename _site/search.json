@@ -1,5 +1,40 @@
 [
   {
+    "objectID": "posts/2022-06-pandas-tidyverse-basic/index.html",
+    "href": "posts/2022-06-pandas-tidyverse-basic/index.html",
+    "title": "pandas & tidyverse: The basics",
+    "section": "",
+    "text": "I’m starting a series of posts that compare how to do the same things in Python and R. This is the first one, comparing the most basic things: creating, printing, reading, and writing tabular data in pandas and the tidyverse. There will be nothing complex here, I am mostly trying out the format.\nThe code examples are based on the Pandas course on Kaggle."
+  },
+  {
+    "objectID": "posts/2022-06-pandas-tidyverse-basic/index.html#attaching-libraries",
+    "href": "posts/2022-06-pandas-tidyverse-basic/index.html#attaching-libraries",
+    "title": "pandas & tidyverse: The basics",
+    "section": "Attaching libraries",
+    "text": "Attaching libraries\nThe easiest. Here is Python:\n\nimport pandas as pd\n\nAnd here::here() is R:\n\nlibrary(tidyverse)"
+  },
+  {
+    "objectID": "posts/2022-06-pandas-tidyverse-basic/index.html#creating-data",
+    "href": "posts/2022-06-pandas-tidyverse-basic/index.html#creating-data",
+    "title": "pandas & tidyverse: The basics",
+    "section": "Creating data",
+    "text": "Creating data\nNot always is data available in a nicely formatted UTF-8 encoded CSVs that we can read in. Sometimes, there is a need to create a table by hand. Let’s take a look at how to create small toy tables (to use as test cases, for example).\nIn Python, the easiest way to do that is to pass a dictionary where keys are column names and values are lists of values to the pd.DataFrame initializer:\n\ntoy_table = pd.DataFrame({\n    \"Apples\": [35, 41],\n    \"Bananas\": [21, 34],\n})\ntoy_table\n\n   Apples  Bananas\n0      35       21\n1      41       34\n\n\nIn R, tribble function exists specifically to simplify this task of creating a small example tables:\n\ntribble(\n    ~Apples, ~Bananas,\n    30,      21,\n    41,      34\n)\n\n# A tibble: 2 × 2\n  Apples Bananas\n   <dbl>   <dbl>\n1     30      21\n2     41      34"
+  },
+  {
+    "objectID": "posts/2022-06-pandas-tidyverse-basic/index.html#reading-the-data",
+    "href": "posts/2022-06-pandas-tidyverse-basic/index.html#reading-the-data",
+    "title": "pandas & tidyverse: The basics",
+    "section": "Reading the data",
+    "text": "Reading the data\nThe function to read data from a file is called read_csv for both. In both, it is insanely customizable by a huge amount of arguments. For example, pandas separates the index into it’s own entity that is r/notlikeothercolumns, and if the index is explicitly written in the file, we can make it interpret it as such by passing an integer column position or a string column name to the index_col argument:\n\ndd = pd.read_csv(\"games-first15.csv\", index_col=0)\ndd.head()\n\n          rated  ...  opening_ply\nid               ...             \nTZJHLljE  False  ...            5\nl1NXvwaE   True  ...            4\nmIICvQHh   True  ...            3\nkWKvrqYL   True  ...            3\n9tXo1AUZ   True  ...            5\n\n[5 rows x 15 columns]\n\n\ntidyverse does not care for indexes and will read everything as ordinary columns. It is, however, very talkative and reports the detected column types by default. We can ask it to be quiet by disabling the show_col_types flag:\n\ndd <- read_csv(\"games-first15.csv\", show_col_types = FALSE)\nhead(dd)\n\n# A tibble: 6 × 16\n  id    rated created_at last_move_at turns victory_status winner increment_code\n  <chr> <lgl>      <dbl>        <dbl> <dbl> <chr>          <chr>  <chr>         \n1 TZJH… FALSE    1.50e12      1.50e12    13 outoftime      white  15+2          \n2 l1NX… TRUE     1.50e12      1.50e12    16 resign         black  5+10          \n3 mIIC… TRUE     1.50e12      1.50e12    61 mate           white  5+10          \n4 kWKv… TRUE     1.50e12      1.50e12    61 mate           white  20+0          \n5 9tXo… TRUE     1.50e12      1.50e12    95 mate           white  30+3          \n6 MsoD… FALSE    1.50e12      1.50e12     5 draw           draw   10+0          \n# … with 8 more variables: white_id <chr>, white_rating <dbl>, black_id <chr>,\n#   black_rating <dbl>, moves <chr>, opening_eco <chr>, opening_name <chr>,\n#   opening_ply <dbl>"
+  },
+  {
+    "objectID": "posts/2022-06-pandas-tidyverse-basic/index.html#writing-the-data",
+    "href": "posts/2022-06-pandas-tidyverse-basic/index.html#writing-the-data",
+    "title": "pandas & tidyverse: The basics",
+    "section": "Writing the data",
+    "text": "Writing the data\nWriting the data to files is even easier than reading them in. Again, both are highly configurable. In pandas a DataFrame has a method called to_csv. Here it is in use, asked nicely to not include the index into the output:\n\ndd.to_csv(\"out.csv\", index=False)\n\nIn tidyverse, the write_csv function takes in the table to write and a path to write it to:\n\nwrite_csv(dd, \"out.csv\")"
+  },
+  {
     "objectID": "posts/2022-04-rendering-drm-models/index.html",
     "href": "posts/2022-04-rendering-drm-models/index.html",
     "title": "Rendering networks of influencing factors in R Markdown",
@@ -46,7 +81,7 @@
     "href": "index.html",
     "title": "nondeterministic woodlands",
     "section": "",
-    "text": "Storing spatial data in databases\n\n\n\n\n\n\n\nPostGIS\n\n\n\n\nUsing PostGIS to never worry about how and where to store your spatial data.\n\n\n\n\n\n\nMay 7, 2022\n\n\nIvan Dubrovin\n\n\n\n\n\n\n  \n\n\n\n\nRendering networks of influencing factors in R Markdown\n\n\n\n\n\n\n\nR Markdown\n\n\nDRM\n\n\n\n\nExplaining the assumptions and goals of research projects by including reference and impact models into R Markdown documents through Graphviz and DiagrammeR.\n\n\n\n\n\n\nApr 22, 2022\n\n\nIvan Dubrovin\n\n\n\n\n\n\nNo matching items"
+    "text": "pandas & tidyverse: The basics\n\n\n\n\n\n\n\nPython & R\n\n\n\n\nComparing how to do the most basic of tasks in pandas and the tidyverse: creating, reading, and writing tabular data.\n\n\n\n\n\n\nJun 15, 2022\n\n\nIvan Dubrovin\n\n\n\n\n\n\n  \n\n\n\n\nStoring spatial data in databases\n\n\n\n\n\n\n\nPostGIS\n\n\n\n\nUsing PostGIS to never worry about how and where to store your spatial data.\n\n\n\n\n\n\nMay 7, 2022\n\n\nIvan Dubrovin\n\n\n\n\n\n\n  \n\n\n\n\nRendering networks of influencing factors in R Markdown\n\n\n\n\n\n\n\nR Markdown\n\n\nDRM\n\n\n\n\nExplaining the assumptions and goals of research projects by including reference and impact models into R Markdown documents through Graphviz and DiagrammeR.\n\n\n\n\n\n\nApr 22, 2022\n\n\nIvan Dubrovin\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
