@@ -1,9 +1,0 @@
-digraph my_graph {
-  rankdir = "LR"
-  B [shape = "box", label = "middle"]
-  node [shape = "ellipse"]
-  A -> B
-  node [color = "green"]
-  A -> C [style = "dashed", label = "shortcut"]
-  B -> C
-}
