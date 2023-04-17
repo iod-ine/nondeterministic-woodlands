@@ -11,7 +11,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "The who\nI’m Ivan, a PhD student at Skoltech. I research fusion of LiDAR with other remote sensing data for precision forestry.\n\n\nThe what\nMy journey through learning geospatial data science.\n\n\nThe how\nRMarkdown, Quarto, R, Python, RStudio, Netlify, giscus, and Google Domains: these were the ingredients chosen to create the perfect little blog."
+    "text": "The who\nI’m Ivan, a PhD student and a data scientist. I hope to someday find a job that is meaningful.\n\n\nThe what\nMy journey through learning things.\n\n\nThe why\nWhy not?"
   },
   {
     "objectID": "posts/2023-04-17-stratified-cv-pyspark/index.html",

@@ -14,20 +14,13 @@ about:
 
 ### The who
 
-I'm Ivan, a PhD student at Skoltech.
-I research fusion of LiDAR with other remote sensing data for precision forestry.
+I'm Ivan, a PhD student and a data scientist.
+I hope to someday find a job that is meaningful.
 
 ### The what
 
-My journey through learning geospatial data science.
+My journey through learning things.
 
-### The how
+### The why
 
-[RMarkdown](https://bookdown.org/yihui/rmarkdown/),
-[Quarto](https://quarto.org/),
-[R](https://www.r-project.org), [Python](https://www.python.org),
-[RStudio](https://www.rstudio.com),
-[Netlify](https://www.netlify.com),
-[giscus](https://giscus.app/),
-and [Google Domains](https://domains.google):
-these were the ingredients chosen to create the perfect little blog.
+Why not?
