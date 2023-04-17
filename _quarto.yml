@@ -4,7 +4,7 @@ project:
 website:
   title: "nondeterministic woodlands"
   description: "Some guy's journey to a PhD in geospatial data analysis"
-  site-url: nondeterministicwoodlands.com
+  site-url: https://pedantic-yalow-e71f1a.netlify.app
   repo-url: https://github.com/iod-ine/nondeterministic-woodlands
   repo-actions: [source, issue]
   search: true
