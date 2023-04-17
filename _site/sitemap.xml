@@ -2,22 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://pedantic-yalow-e71f1a.netlify.app/index.html</loc>
-    <lastmod>2023-04-17T13:22:02.418Z</lastmod>
+    <lastmod>2023-04-17T17:01:25.987Z</lastmod>
   </url>
   <url>
     <loc>https://pedantic-yalow-e71f1a.netlify.app/about.html</loc>
-    <lastmod>2023-04-17T12:27:54.157Z</lastmod>
+    <lastmod>2023-04-17T17:01:26.231Z</lastmod>
   </url>
   <url>
-    <loc>nondeterministicwoodlands.com/posts/2022-05-spatial-databases/index.html</loc>
-    <lastmod>2022-06-15T14:47:10.054Z</lastmod>
-  </url>
-  <url>
-    <loc>nondeterministicwoodlands.com/index.html</loc>
-    <lastmod>2022-06-15T14:47:10.450Z</lastmod>
-  </url>
-  <url>
-    <loc>nondeterministicwoodlands.com/about.html</loc>
-    <lastmod>2022-06-15T14:47:10.746Z</lastmod>
+    <loc>https://pedantic-yalow-e71f1a.netlify.app/posts/2023-04-17-stratified-cv-pyspark/index.html</loc>
+    <lastmod>2023-04-17T17:01:26.511Z</lastmod>
   </url>
 </urlset>
